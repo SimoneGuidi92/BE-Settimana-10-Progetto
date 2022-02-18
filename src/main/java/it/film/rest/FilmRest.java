@@ -54,7 +54,7 @@ public class FilmRest {
 	}
 	
 	@DeleteMapping("/{id}")
-	@ApiOperation(value = "cancellazione cittadino", notes = "Permette di cancellare un film")
+	@ApiOperation(value = "cancellazione film", notes = "Permette di cancellare un film")
 	public ResponseEntity<String> cancellaFilm(@PathVariable int id) {
 		try {
 			fd.cancella(id);

@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
 import it.film.entity.Film;
 
 public class FilmDaoImp implements FilmDao {
@@ -27,7 +29,8 @@ public class FilmDaoImp implements FilmDao {
 	 *  @return  
 	 */
 	public void salva(Film f) {
-		
+		String incassoCriptato = BCrypt.hashpw(f.getIncasso(), BCrypt.gensalt());
+		f.setIncasso(incassoCriptato);
 		getEm().getTransaction().begin();	// inizia la transazione
 		getEm().persist(f);	// inserimento
 		getEm().getTransaction().commit();	// termina la transazione
@@ -43,7 +46,8 @@ public class FilmDaoImp implements FilmDao {
 	 * @throws Exception 
 	 */
 	public void aggiorna(Film f) throws Exception {
-		
+		String incassoCriptato = BCrypt.hashpw(f.getIncasso(), BCrypt.gensalt());
+		f.setIncasso(incassoCriptato);
 		Film fi = getEm().find(Film.class, f.getId());
 		if(fi == null) {
 			throw new Exception("Film non trovato");
